@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tracing Closure 3</title>
+</head>
+<body>
+	<script type="text/javascript">
+		function mystery(input) {
+			// input = 3
+			console.log("1. ", input);
+  			
+  			var secret = 4;
+  			
+  			input += 2;  // 3 + 2 = 5
+  			console.log("2. ", input);
+  			
+  			function mystery2(multiplier) {
+  				// multiplier = 6
+  				console.log("8. ", multiplier);
+    			multiplier *= input;
+	    		// multiplier = 6 * 5 = 30
+	    		console.log("9. ", multiplier);
+
+	    		console.log("10. ", secret * multiplier);
+    			return secret * multiplier;
+    			// 4 * 30 = 120
+    		
+  			}
+  			
+  			return mystery2;
+		}
+
+		function mystery3(param) {
+			// param = mystery2()
+			console.log("4. ", param);
+  			
+  			function mystery4(bonus) {
+  				// bonus = 2
+  				console.log("6. ", bonus);
+  				console.log("7. ", param);
+    			return param(6) + bonus;
+    			// param(6) -> mystery2(6) -> 120 + 2 = 122
+  			}
+  		
+  			return mystery4;
+		}		
+
+		var hidden = mystery(3);
+		// hidden -> mystery2()
+		console.log("3. ", hidden);
+
+
+		var jumble = mystery3(hidden);
+		// jumble -> mystery4()
+		console.log("5. ", jumble);
+
+		var result = jumble(2);
+		// result = 120
+
+		alert(result);
+
+
+	</script>
+</body>
+</html>
